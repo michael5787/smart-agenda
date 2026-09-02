@@ -1,29 +1,27 @@
-# Welcome to your Lovable project
+# Madauros — Agenda (المفكرة) fix
 
-This project was built with [Lovable](https://lovable.dev).
+Recreation of the agenda module from `michael5787/friendly-ghost-importer`
+with two fixes. `/` is a demo harness running on in-memory data.
 
-## Build with Lovable
+## 1. Auto-jump to the first pending homework
+`src/components/agenda/useAgenda.ts` — `useFirstPendingDay(client, target)`
+- teacher: first **future** `homework` date the teacher scheduled (optionally per class)
+- student: first future homework of the class with no `submissions` row for its
+  `resource_id` by this student (homework without a resource counts as pending)
 
-Open your project in the [Lovable editor](https://lovable.dev) and keep building.
+`StudentAgenda.tsx` / `TeacherAgenda.tsx` start on **today**, switch **once** when the
+lookup resolves, and never again after any manual calendar navigation (arrows, picker,
+"اليوم").
 
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: connect the project to GitHub and every change made in Lovable is committed straight to your repository.
-- **Full ownership**: this code is yours. Push to your repository and your changes sync back into Lovable, ready for your next prompt.
+**Porting note:** `StudentAgenda` now takes a `studentId` prop — pass the signed-in
+user id from `routes/talameed.tsx`.
 
-## Development
+## 2. "تعذّر تحميل المفكرة" on the student page
+The live app targets an external database provisioned with `supabase/setup-external.sql`,
+which never creates `agenda_events` (that table only exists in `supabase/migrations/`,
+which run on Lovable Cloud only). PostgREST answers `PGRST205` and the UI showed a generic error.
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
-
-```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
-```
-
-## Built with
-
-- TanStack Start
-- TypeScript
-- React
-- Tailwind CSS
+- Run `supabase/setup-external-agenda.sql` in the external project's SQL editor
+  (idempotent: table, grants, RLS, indexes, schema reload).
+- `useAgenda` now maps `PGRST205 / 42P01 / 42501 / 42703` to explicit Arabic messages
+  and logs the raw error.
