@@ -46,7 +46,6 @@ export function TeacherAgenda({
     autoJumpDone.current = true;
     setDateKey(key);
   }, []);
-
   const filter = { teacherId, ...(classId === "" ? {} : { classId }) };
   const { rows, loading, error, setError, reload } = useAgenda(client, filter, dateKey);
   const [version, setVersion] = useState(0);
