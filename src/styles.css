@@ -142,3 +142,86 @@
     color: var(--color-foreground);
   }
 }
+
+/* ---- Madauros design system (mirrored from friendly-ghost-importer) ---- */
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-brand-blue: var(--brand-blue);
+  --color-brand-red: var(--brand-red);
+  --color-brand-yellow: var(--brand-yellow);
+  --color-brand-green: var(--brand-green);
+  --font-sans: "Cairo", system-ui, sans-serif;
+}
+
+:root {
+  --canvas: oklch(0.98 0.002 260);
+  --brand-blue: oklch(0.55 0.19 258);
+  --brand-red: oklch(0.58 0.21 27);
+  --brand-yellow: oklch(0.79 0.16 85);
+  --brand-green: oklch(0.52 0.14 155);
+  --primary: var(--brand-blue);
+  --primary-foreground: oklch(0.99 0 0);
+  --ring: var(--brand-blue);
+}
+
+@layer base {
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--color-canvas);
+  }
+}
+
+@layer components {
+  .btn-primary {
+    border-radius: 9999px;
+    background-color: var(--color-primary);
+    color: var(--color-primary-foreground);
+    padding: 0.6rem 1.6rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    transition: filter 0.15s ease;
+  }
+  .btn-primary:hover { filter: brightness(1.08); }
+  .btn-primary:disabled { opacity: 0.6; }
+
+  .btn-text {
+    border-radius: 9999px;
+    color: var(--color-primary);
+    padding: 0.6rem 0.9rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+  .btn-text:hover { background-color: color-mix(in oklab, var(--color-primary) 10%, transparent); }
+
+  .field-input {
+    width: 100%;
+    border: 1px solid var(--color-input);
+    border-radius: var(--radius);
+    background-color: var(--color-card);
+    padding: 0.95rem 0.9rem;
+    font-size: 0.95rem;
+    color: var(--color-foreground);
+    outline: none;
+  }
+  .field-input:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 1px var(--color-primary);
+  }
+
+  .nav-menu-item {
+    position: relative;
+    flex: 0 0 auto;
+    white-space: nowrap;
+    padding: 0.45rem 1rem;
+    border-radius: 9999px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-muted-foreground);
+    transition: color 0.18s ease, background 0.18s ease, transform 0.18s ease;
+  }
+  .nav-menu-item:hover { color: var(--color-foreground); transform: translateY(-1px); }
+  .nav-menu-item[data-active="true"] {
+    color: var(--color-primary-foreground);
+    background: var(--color-primary);
+  }
+}
